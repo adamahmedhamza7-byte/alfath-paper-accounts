@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#14264b"><title>الفتح لتجارة الورق</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="brand"><div class="logo">الفتح</div><div><h1>الفتح لتجارة الورق</h1><p>نظام إدارة الحسابات</p></div></div><button id="logoutBtn" class="btn ghost hidden">تسجيل الخروج</button></header>
+<main class="container">
+  <section id="setupNotice" class="notice hidden">قبل التشغيل: أنشئ مشروع Supabase، نفّذ ملف <b>supabase/schema.sql</b> في SQL Editor، ثم ضع رابط المشروع و anon key في <b>config.js</b>. التفاصيل في README.</section>
+  <section id="authView" class="auth card">
+    <div class="eyebrow">مرحباً بك</div><h2>تسجيل دخول صاحب العمل</h2><p class="muted">الدخول مخصص لصاحب الحساب فقط في هذه النسخة.</p>
+    <label>البريد الإلكتروني<input id="email" type="email" autocomplete="username" placeholder="name@example.com"></label>
+    <label>كلمة المرور<input id="password" type="password" autocomplete="current-password" placeholder="كلمة المرور"></label>
+    <button id="loginBtn" class="btn primary full">تسجيل الدخول</button>
+    <p id="authMessage" class="message" aria-live="polite"></p>
+  </section>
+  <section id="appView" class="hidden">
+    <div class="welcome"><div><div class="eyebrow">لوحة التحكم</div><h2>أهلاً بك في حسابات الفتح</h2><p class="muted">سجّل التحصيلات والمصروفات وتابع حركة الخزنة.</p></div><span class="live">متصل بقاعدة البيانات</span></div>
+    <div class="stats">
+      <article class="stat"><span>إجمالي التحصيلات</span><strong id="totalIn">0 ج.م</strong></article>
+      <article class="stat"><span>إجمالي المصروفات</span><strong id="totalOut">0 ج.م</strong></article>
+      <article class="stat"><span>صافي الحركة</span><strong id="net">0 ج.م</strong></article>
+      <article class="stat"><span>عدد الموظفين</span><strong id="employeeCount">0</strong></article>
+    </div>
+    <div class="tabs"><button class="tab active" data-target="transactionsPanel">الحركات المالية</button><button class="tab" data-target="employeesPanel">الموظفون</button></div>
+    <section id="transactionsPanel" class="grid">
+      <article class="card"><h3>تسجيل حركة مالية</h3>
+        <form id="transactionForm">
+          <label>نوع الحركة<select id="type"><option value="income">تحصيل / فلوس داخلة</option><option value="expense">مصروف / فلوس خارجة</option></select></label>
+          <label>المبلغ بالجنيه<input id="amount" type="number" min="0.01" step="0.01" required placeholder="مثال: 1500"></label>
+          <label>الموظف المسؤول<select id="employeeSelect" required><option value="">اختر الموظف</option></select></label>
+          <label>من مين / لمين؟<input id="party" maxlength="120" placeholder="اسم العميل أو المستلم"></label>
+          <label>البيان<input id="description" maxlength="250" placeholder="مثال: تحصيل فاتورة"></label>
+          <label>التاريخ<input id="date" type="date" required></label>
+          <button class="btn primary full" type="submit">حفظ الحركة</button><p id="txMessage" class="message"></p>
+        </form>
+      </article>
+      <article class="card"><div class="section-head"><h3>سجل الحركات</h3><button id="refreshBtn" class="btn soft">تحديث</button></div>
+        <div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>النوع</th><th>الموظف</th><th>المبلغ</th><th>البيان</th></tr></thead><tbody id="transactionsBody"><tr><td colspan="5" class="empty">جارٍ التحميل...</td></tr></tbody></table></div>
+      </article>
+    </section>
+    <section id="employeesPanel" class="hidden">
+      <div class="grid">
+        <article class="card"><h3>إضافة موظف</h3><form id="employeeForm"><label>اسم الموظف<input id="employeeName" maxlength="100" required placeholder="اسم الموظف"></label><button class="btn primary full">إضافة الموظف</button><p id="employeeMessage" class="message"></p></form></article>
+        <article class="card"><h3>حسابات الموظفين</h3><div class="table-wrap"><table><thead><tr><th>الموظف</th><th>التحصيلات</th><th>المصروفات</th><th>الصافي</th></tr></thead><tbody id="employeesBody"></tbody></table></div></article>
+      </div>
+    </section>
+    <p class="footnote">هذه نسخة أولية. احتفظ بنسخ احتياطية دورية من قاعدة البيانات، ولا تشارك كلمة مرور الحساب أو مفاتيح الخدمة السرية.</p>
+  </section>
+</main>
+<div id="toast" role="status" class="toast"></div>
+<script type="module" src="app.js"></script>
+</body></html>
